@@ -372,8 +372,25 @@ tr:hover {
   font-weight: 600;
 }
 
-/* Loading */
+/* Loading indicator */
 .loading {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Additional loading styles */
+.loading-large {
   display: inline-block;
   width: 20px;
   height: 20px;

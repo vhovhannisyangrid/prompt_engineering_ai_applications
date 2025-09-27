@@ -59,32 +59,42 @@ router.post('/generate', async (req, res) => {
   try {
     const { prompt, temperature, maxTokens } = req.body;
     
+    console.log('🚀 Generate request received:', { prompt, temperature, maxTokens });
     logger.debug(`Generate request: ${prompt}`);
     
+    console.log('🔍 Step 1: Getting data generation intent...');
     const intent = await aiAssistant.getDataGenerationIntent(prompt);
+    console.log('✅ Intent result:', intent);
     
     if (intent === 'UNKNOWN') {
+      console.log('❌ Intent is UNKNOWN, returning error');
       return res.status(400).json({ error: 'Unable to determine data generation intent' });
     }
     
+    console.log('🔍 Step 2: Generating SQL inserts...');
     const sql = await aiAssistant.generateInserts(
       prompt,
       parseFloat(temperature) || 0.2,
       parseInt(maxTokens) || 3000
     );
+    console.log('✅ SQL generated:', sql?.substring(0, 100) + '...');
     
+    console.log('🔍 Step 3: Converting SQL to object...');
     const preview = await aiAssistant.convertSqlToObject(
       sql,
       parseFloat(temperature) || 0.2,
       parseInt(maxTokens) || 3000
     );
+    console.log('✅ Preview generated:', preview);
     
+    console.log('🎉 Sending response:', { sql: sql?.substring(0, 50) + '...', preview: Array.isArray(preview) ? `${preview.length} items` : preview, intent });
     res.json({
       sql,
       preview,
       intent
     });
   } catch (error) {
+    console.error('❌ Generate error:', error);
     logger.error(`Generate error: ${error.message}`);
     res.status(500).json({ error: error.message });
   }

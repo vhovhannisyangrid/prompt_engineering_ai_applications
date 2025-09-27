@@ -152,12 +152,20 @@ class AiAssistant {
 
   async generateInserts(userMessage, temperature = 0.2, maxTokens = 3000) {
     try {
+      console.log('🔍 generateInserts called with userMessage:', userMessage);
+      
       const instructions = await this.loadPrompt('generate-inserts-instructions.st');
+      console.log('📄 Loaded generate-inserts-instructions.st:', instructions?.substring(0, 100) + '...');
+      
       const defaultPrompt = await this.loadPrompt('generate-inserts-prompt-default.st');
+      console.log('📄 Loaded generate-inserts-prompt-default.st:', defaultPrompt?.substring(0, 100) + '...');
       
       const prompt = userMessage.trim() 
         ? `${instructions}\n\nUser: ${userMessage}`
         : `${instructions}\n\n${defaultPrompt}`;
+      
+      console.log('📝 Full prompt being sent to AI:', prompt?.substring(0, 200) + '...');
+      console.log('🤖 Calling generativeModel.generateContent...');
       
       const result = await generativeModel.generateContent({
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
@@ -173,8 +181,12 @@ class AiAssistant {
         }
       });
       
+      console.log('✅ AI response received:', result);
+      console.log('📝 AI response text:', result.response.text());
+      
       return result.response.text();
     } catch (error) {
+      console.error('❌ Error in generateInserts:', error);
       logger.error(`Failed to generate inserts: ${error.message}`);
       throw new Error('Failed to generate SQL inserts');
     }
@@ -208,12 +220,19 @@ class AiAssistant {
 
   async convertSqlToObject(sql, temperature = 0.2, maxTokens = 3000) {
     try {
+      console.log('🔍 convertSqlToObject called with SQL:', sql?.substring(0, 100) + '...');
+      
       const instructions = await this.loadPrompt('convert-inserts-instructions.st');
+      console.log('📄 Loaded convert-inserts-instructions.st:', instructions?.substring(0, 100) + '...');
+      
       const convertPrompt = await this.loadPrompt('convert-inserts-prompt.st');
+      console.log('📄 Loaded convert-inserts-prompt.st:', convertPrompt);
       
       const fullPrompt = convertPrompt.replace('{sql_inserts}', sql);
       const prompt = `${instructions}\n\n${fullPrompt}`;
+      console.log('📝 Full prompt being sent to AI:', prompt?.substring(0, 200) + '...');
       
+      console.log('🤖 Calling generativeModel.generateContent...');
       const result = await generativeModel.generateContent({
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         generationConfig: {
@@ -222,8 +241,14 @@ class AiAssistant {
         }
       });
       
-      return JSON.parse(result.response.text());
+      console.log('✅ AI response received:', result);
+      console.log('📝 AI response text:', result.response.text());
+      
+      const parsedResult = JSON.parse(result.response.text());
+      console.log('✅ Successfully parsed JSON:', parsedResult);
+      return parsedResult;
     } catch (error) {
+      console.error('❌ Error in convertSqlToObject:', error);
       logger.error(`Failed to convert SQL to object: ${error.message}`);
       throw new Error('Failed to convert SQL to object format');
     }

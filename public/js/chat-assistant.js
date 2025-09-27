@@ -43,8 +43,10 @@ class ChatAssistant {
     
     if (!message) return;
     
-    input.value = '';
-    input.style.height = 'auto';
+    if (input) {
+      input.value = '';
+      input.style.height = 'auto';
+    }
     
     this.addMessage(message, 'user');
     
