@@ -1,0 +1,46 @@
+{
+  "name": "nodejs-ai-assistant",
+  "version": "1.0.0",
+  "description": "AI-powered data assistant with Node.js",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "build": "echo 'No build step required'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "ai",
+    "data-assistant",
+    "nodejs",
+    "postgresql",
+    "vertex-ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/vertexai": "^1.2.0",
+    "cors": "^2.8.5",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "joi": "^17.11.0",
+    "json-2-csv": "^5.5.9",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "multer": "^2.0.2",
+    "pg": "^8.11.3",
+    "redis": "^4.6.10",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

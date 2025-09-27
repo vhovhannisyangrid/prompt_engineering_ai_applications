@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/data-assistant.css"/>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="sidebar__title">Data Assistant</div>
+        <nav class="sidebar__nav">
+            <a class="nav-item active" href="/data" aria-current="page">
+                <span class="nav-icon">🗄️</span><span>Data Generation</span>
+            </a>
+            <a class="nav-item" href="/chat">
+                <span class="nav-icon">💬</span><span>Talk to your data</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <section class="card">
+            <div class="card__section">
+                <label for="prompt" class="label">Prompt</label>
+                <input id="prompt" name="prompt" class="input"
+                       placeholder="Enter your prompt here..." form="generateForm"/>
+            </div>
+
+            <div class="card__row gap">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <label class="btn btn-secondary" role="button" tabindex="0">
+                        <span class="btn-icon">⬆️</span>
+                        Upload DDL Schema
+                        <input type="file" name="file" accept=".sql,.ddl,.txt,.json" hidden onchange="this.form.submit()">
+                    </label>
+                </form>
+                <button id="cleanupBtn" class="btn btn-secondary">
+                    <span class="btn-icon">🗑️</span>Clean Up Schema
+                </button>
+                <span class="hint">Supported formats: SQL, JSON</span>
+            </div>
+
+            <div id="responseMessage" class="card__row" style="display: none;">
+                <div id="responseText" class="hint"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <form id="generateForm">
+                <div class="card__section">
+                    <div class="label">Advanced Parameters</div>
+                    <div class="params">
+                        <div class="param">
+                            <label for="temperature" class="label-sm">Temperature</label>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <input id="temperature" name="temperature" type="range"
+                                       min="0" max="1" step="0.1" value="0.5" class="slider"/>
+                                <span id="temperatureValue">0.5</span>
+                            </div>
+                        </div>
+                        <div class="param">
+                            <label for="maxTokens" class="label-sm">Max Tokens</label>
+                            <input id="maxTokens" name="maxTokens" class="input input--sm"
+                                   type="number" value="3000" min="1"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="card__row">
+                    <button id="generateBtn" class="btn" type="submit">Generate</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <div class="card__row card__row--between">
+                <div class="label">Data Preview</div>
+                <div class="select-wrap"><select id="tableSelect" class="select"></select></div>
+            </div>
+
+            <div id="tableContainer" class="table-wrap"></div>
+            <div id="insertMessage" style="padding:10px;font-size:14px;"></div>
+            <div id="downloadLink" style="padding:10px;"></div>
+
+            <div class="quick-edit">
+                <input id="quickEdit" class="input" placeholder="Enter quick edit instructions..."/>
+                <button id="insertBtn" class="btn btn-dark" type="button" disabled>
+                    <span class="btn-icon">⚡</span>Submit
+                </button>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="/js/data-assistant.js"></script>
+</body>
+</html>

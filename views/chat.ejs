@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/data-assistant.css"/>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="sidebar__title">Data Assistant</div>
+        <nav class="sidebar__nav">
+            <a class="nav-item" href="/data"><span class="nav-icon">🗄️</span><span>Data Generation</span></a>
+            <a class="nav-item active" href="/chat" aria-current="page">
+                <span class="nav-icon">💬</span><span>Talk to your data</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <section class="card">
+            <div class="card__row card__row--between"><div class="label">Talk to your data</div></div>
+            <div id="chatLog" class="chat-log" aria-live="polite"></div>
+            <div class="chat-input">
+        <textarea id="chatInput" class="input" rows="1"
+                  placeholder="Ask a question about your data... (Shift+Enter for newline)"></textarea>
+                <button id="chatSend" class="send-btn" aria-label="Send">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true">
+                        <path d="M22 2L11 13"></path>
+                        <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+                    </svg>
+                </button>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module">
+    import { ensureErrorModalDom } from "/js/error-modal.js";
+    ensureErrorModalDom();
+</script>
+<script type="module" src="/js/chat-assistant.js"></script>
+</body>
+</html>
